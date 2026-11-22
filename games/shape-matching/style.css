@@ -1,0 +1,906 @@
+/* ============================================
+   SHAPE MATCHING — Garden / Train / Town / Space
+   ============================================ */
+
+/* Offline-first rounded preschool font stack (no network dependency) */
+
+.shape-game {
+  --ink: #2f3a4a;
+  --tray: #fffaf3;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  border-radius: 22px;
+  color: var(--ink);
+  font-family: 'Fredoka', 'Segoe UI Rounded', 'Trebuchet MS', sans-serif;
+}
+
+.shape-game *,
+.shape-game *::before,
+.shape-game *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Background layers ---------- */
+
+.sg-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.sg-bg-sky,
+.sg-bg-ground,
+.sg-bg-fence,
+.sg-bg-flowers,
+.sg-bg-tracks,
+.sg-bg-stars,
+.sg-bg-sun,
+.sg-bg-cloud,
+.sg-bg-planet {
+  position: absolute;
+}
+
+.sg-bg-sky {
+  inset: 0;
+  background: linear-gradient(180deg, #7ec8ff 0%, #b8e4ff 42%, #d9f5c8 70%, #8fd36a 100%);
+}
+
+.sg-bg-sun {
+  top: 18px;
+  right: 18px;
+  font-size: 42px;
+  filter: drop-shadow(0 4px 0 rgba(255, 180, 40, 0.35));
+  animation: sg-bob 3.2s ease-in-out infinite;
+}
+
+.sg-bg-cloud {
+  font-size: 34px;
+  opacity: 0.85;
+  animation: sg-drift 12s ease-in-out infinite;
+}
+
+.sg-bg-cloud.c1 { top: 54px; left: 8%; }
+.sg-bg-cloud.c2 { top: 92px; right: 22%; animation-duration: 15s; animation-direction: reverse; }
+
+.sg-bg-ground {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background:
+    radial-gradient(ellipse at 20% 0%, #a8e06a 0, transparent 45%),
+    linear-gradient(180deg, #7ecf4f 0%, #5bb53a 100%);
+}
+
+.sg-bg-fence {
+  left: 0;
+  right: 0;
+  bottom: 44%;
+  height: 34px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f4efe4 0 14px,
+      transparent 14px 22px
+    ),
+    linear-gradient(#f4efe4, #f4efe4);
+  background-size: auto, 100% 4px;
+  background-position: center, center 14px;
+  background-repeat: repeat-x, no-repeat;
+  opacity: 0.88;
+  border-top: 3px solid #fff8ee;
+  border-bottom: 3px solid #e7dcc8;
+  z-index: 0;
+}
+
+.sg-bg-flowers {
+  left: 4%;
+  right: 4%;
+  bottom: 18%;
+  height: 28px;
+  background-image:
+    radial-gradient(circle at 8% 60%, #ff6b8a 0 5px, transparent 6px),
+    radial-gradient(circle at 18% 40%, #ffd34e 0 5px, transparent 6px),
+    radial-gradient(circle at 72% 55%, #ff8a4c 0 5px, transparent 6px),
+    radial-gradient(circle at 88% 35%, #ff6b8a 0 5px, transparent 6px);
+  opacity: 0.9;
+}
+
+.sg-bg-tracks,
+.sg-bg-stars,
+.sg-bg-planet {
+  display: none;
+}
+
+/* Theme: Garden (default above) */
+
+/* Theme: Train */
+.shape-game.theme-train .sg-bg-sky {
+  background: linear-gradient(180deg, #7ec8ff 0%, #c9ebff 48%, #9ad36a 100%);
+}
+.shape-game.theme-train .sg-bg-fence,
+.shape-game.theme-train .sg-bg-flowers { display: none; }
+.shape-game.theme-train .sg-bg-ground {
+  height: 32%;
+  background: linear-gradient(180deg, #8fd45a 0%, #6bbb3f 100%);
+}
+.shape-game.theme-train .sg-bg-tracks {
+  display: block;
+  left: 0;
+  right: 0;
+  bottom: 28%;
+  height: 18px;
+  background:
+    repeating-linear-gradient(90deg, #8b5a2b 0 28px, transparent 28px 44px),
+    linear-gradient(#6b4420, #6b4420);
+  background-size: auto, 100% 6px;
+  background-position: center, center;
+  background-repeat: repeat-x, no-repeat;
+  box-shadow: 0 10px 0 #5a3818;
+}
+
+/* Theme: Town */
+.shape-game.theme-town .sg-bg-sky {
+  background: linear-gradient(180deg, #7ec8ff 0%, #bfe6ff 55%, #d7dde5 100%);
+}
+.shape-game.theme-town .sg-bg-fence,
+.shape-game.theme-town .sg-bg-flowers { display: none; }
+.shape-game.theme-town .sg-bg-ground {
+  height: 36%;
+  background:
+    linear-gradient(180deg, transparent 0 18%, #9aa3ad 18% 22%, #b8c0c8 22% 100%),
+    linear-gradient(180deg, #8fd45a 0%, #8fd45a 40%, #9aa3ad 40%);
+}
+.shape-game.theme-town .sg-bg-sun { right: auto; left: 16px; }
+
+/* Theme: Space */
+.shape-game.theme-space {
+  --ink: #f4f0ff;
+}
+.shape-game.theme-space .sg-bg-sky {
+  background:
+    radial-gradient(circle at 18% 22%, #6b4dff 0, transparent 22%),
+    radial-gradient(circle at 78% 18%, #ff6bcb 0, transparent 18%),
+    linear-gradient(180deg, #1a1240 0%, #2a1b63 45%, #3d2a7a 100%);
+}
+.shape-game.theme-space .sg-bg-sun,
+.shape-game.theme-space .sg-bg-cloud,
+.shape-game.theme-space .sg-bg-fence,
+.shape-game.theme-space .sg-bg-flowers,
+.shape-game.theme-space .sg-bg-tracks { display: none; }
+.shape-game.theme-space .sg-bg-ground {
+  height: 28%;
+  background:
+    radial-gradient(ellipse at 50% 0%, #7a6b8f 0, transparent 55%),
+    linear-gradient(180deg, #5a4d6e 0%, #3f3554 100%);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+  left: -10%;
+  right: -10%;
+}
+.shape-game.theme-space .sg-bg-stars {
+  display: block;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 12% 18%, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 28% 40%, #fff 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 55% 14%, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 32%, #fff 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 86% 20%, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 55%, #fff8 0 1.5px, transparent 2.5px);
+  animation: sg-twinkle 2.8s ease-in-out infinite;
+}
+.shape-game.theme-space .sg-bg-planet {
+  display: block;
+  top: 64px;
+  right: 12%;
+  font-size: 36px;
+  animation: sg-bob 4s ease-in-out infinite;
+}
+
+/* ---------- Header ---------- */
+
+.sg-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 2px 4px;
+}
+
+.sg-heading {
+  min-width: 0;
+}
+
+.sg-title {
+  margin: 0;
+  font-size: clamp(1.55rem, 4.5vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow:
+    0 3px 0 rgba(40, 70, 40, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.shape-game.theme-space .sg-title {
+  color: #fff;
+  text-shadow: 0 3px 0 rgba(80, 40, 160, 0.45), 0 0 18px rgba(180, 120, 255, 0.45);
+}
+
+.sg-subtitle {
+  margin: 4px 0 0;
+  font-size: clamp(0.78rem, 2.2vw, 0.95rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.sg-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sg-level-pill {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  background: linear-gradient(180deg, #ff9f43, #ff7a1a);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 #d65a00, 0 8px 14px rgba(0, 0, 0, 0.15);
+}
+
+.sg-stars {
+  display: flex;
+  gap: 2px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.sg-star {
+  font-size: 14px;
+  filter: grayscale(1) opacity(0.35);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.sg-star.on {
+  filter: none;
+  transform: scale(1.12);
+}
+
+.shape-game.theme-space .sg-stars {
+  background: rgba(40, 20, 80, 0.45);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Play field ---------- */
+
+.sg-play {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 2px;
+}
+
+.sg-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  align-self: end;
+  margin-bottom: 8px;
+  animation: sg-bob 2.6s ease-in-out infinite;
+}
+
+.sg-mascot-face {
+  font-size: clamp(3rem, 9vw, 4.4rem);
+  filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.08));
+  line-height: 1;
+}
+
+.sg-mascot-bubble {
+  max-width: 92px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  background: #fff;
+  color: #355;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.sg-mascot-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.shape-game.theme-space .sg-mascot-bubble {
+  background: #2a1b55;
+  color: #f3eaff;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+.shape-game.theme-space .sg-mascot-bubble::after {
+  background: #2a1b55;
+}
+
+.sg-board {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.sg-homes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px 14px;
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ---------- Garden pads ---------- */
+
+.sg-home-garden {
+  width: clamp(88px, 16vw, 118px);
+}
+
+.sg-pad {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff6 0, transparent 35%),
+    linear-gradient(160deg, #c99a62, #8b5a2b);
+  border: 5px solid #f3e2c4;
+  box-shadow:
+    inset 0 -10px 0 rgba(0, 0, 0, 0.12),
+    0 10px 0 rgba(90, 50, 20, 0.25);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+}
+
+.sg-leaf {
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  font-size: 18px;
+  transform: rotate(18deg);
+}
+
+.sg-home-garden .sg-nest {
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ffe9f0, #ffe28a);
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.55);
+}
+
+.sg-home-garden .sg-nest svg {
+  width: 78%;
+  height: 78%;
+  filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.5));
+}
+
+/* ---------- Train cars ---------- */
+
+.sg-homes-train {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  padding-bottom: 6px;
+  gap: 8px;
+}
+
+.sg-engine {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-right: 4px;
+}
+
+.sg-engine-face {
+  font-size: 22px;
+  background: #fff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 3px solid #ff9f43;
+}
+
+.sg-engine-body { font-size: 42px; line-height: 1; }
+
+.sg-home-train {
+  flex: 0 0 auto;
+  width: clamp(92px, 18vw, 120px);
+}
+
+.sg-car-body {
+  position: relative;
+  height: 86px;
+  border-radius: 16px 16px 10px 10px;
+  background: linear-gradient(180deg, var(--shape-color), color-mix(in srgb, var(--shape-color) 70%, #000));
+  border: 4px solid #fff;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+  display: grid;
+  place-items: center;
+}
+
+.sg-home-train:nth-child(2) .sg-car-body { background: linear-gradient(180deg, #ff5a6a, #e03d50); }
+.sg-home-train:nth-child(3) .sg-car-body { background: linear-gradient(180deg, #3b9bff, #2178d8); }
+.sg-home-train:nth-child(4) .sg-car-body { background: linear-gradient(180deg, #3dcf7a, #259a55); }
+.sg-home-train:nth-child(5) .sg-car-body { background: linear-gradient(180deg, #ffc021, #e0a200); }
+
+.sg-wheels {
+  display: flex;
+  justify-content: space-around;
+  margin-top: -6px;
+  padding: 0 12px;
+}
+
+.sg-wheels span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #333;
+  border: 3px solid #666;
+  box-shadow: inset 0 0 0 3px #999;
+}
+
+.sg-home-train .sg-nest {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.22);
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Town houses ---------- */
+
+.sg-home-town {
+  width: clamp(86px, 16vw, 112px);
+}
+
+.sg-house {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sg-roof {
+  width: 92%;
+  height: 28px;
+  background: var(--house-color);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  filter: brightness(0.92);
+  margin-bottom: -2px;
+}
+
+.sg-house-body {
+  position: relative;
+  width: 100%;
+  height: 92px;
+  border-radius: 10px 10px 8px 8px;
+  background: var(--house-color);
+  border: 4px solid #fff;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.12);
+  display: grid;
+  place-items: center;
+}
+
+.sg-home-town .sg-nest {
+  width: 68%;
+  height: 68%;
+  border-radius: 12px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+
+.sg-home-town .sg-nest svg {
+  width: 78%;
+  height: 78%;
+}
+
+/* ---------- Space UFOs ---------- */
+
+.sg-home-space {
+  width: clamp(90px, 16vw, 116px);
+}
+
+.sg-ufo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: sg-float 3s ease-in-out infinite;
+}
+
+.sg-home-space:nth-child(2) .sg-ufo { animation-delay: 0.2s; }
+.sg-home-space:nth-child(3) .sg-ufo { animation-delay: 0.4s; }
+.sg-home-space:nth-child(4) .sg-ufo { animation-delay: 0.1s; }
+.sg-home-space:nth-child(5) .sg-ufo { animation-delay: 0.35s; }
+
+.sg-dome {
+  position: relative;
+  z-index: 2;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50% 50% 46% 46%;
+  background: linear-gradient(180deg, rgba(210, 240, 255, 0.95), rgba(160, 210, 255, 0.55));
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 16px rgba(120, 200, 255, 0.45);
+  display: grid;
+  place-items: center;
+  margin-bottom: -10px;
+}
+
+.sg-saucer {
+  width: 100%;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #dfe7ff, #8ea0e8 55%, #6a7cc8);
+  border: 3px solid #fff;
+  box-shadow: 0 0 18px rgba(140, 160, 255, 0.55);
+  z-index: 1;
+}
+
+.sg-beam {
+  width: 42%;
+  height: 18px;
+  margin-top: -2px;
+  background: linear-gradient(180deg, rgba(180, 255, 200, 0.55), transparent);
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.sg-home-space .sg-nest {
+  width: 78%;
+  height: 78%;
+  display: grid;
+  place-items: center;
+}
+
+.sg-home-space .sg-nest svg {
+  width: 85%;
+  height: 85%;
+}
+
+/* Shared nest / filled state */
+
+.sg-home-check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2ed67b;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: 0.25s ease;
+  z-index: 3;
+}
+
+.sg-home.is-filled .sg-home-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.sg-home.is-filled .sg-pad,
+.sg-home.is-filled .sg-car-body,
+.sg-home.is-filled .sg-house-body,
+.sg-home.is-filled .sg-dome {
+  animation: sg-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sg-nest {
+  position: relative;
+}
+
+.sg-nest svg {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* ---------- Tray / pieces ---------- */
+
+.sg-tray {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: min(100%, 680px);
+  margin: 0 auto;
+  padding: 10px 14px 12px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, #c9a06a, #8b5a2b);
+  border: 5px solid #f3e2c4;
+  box-shadow:
+    inset 0 10px 0 rgba(255, 255, 255, 0.12),
+    0 10px 0 rgba(90, 50, 20, 0.28);
+}
+
+.sg-tray-label {
+  text-align: center;
+  color: #fff8e8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.sg-pieces {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-height: 92px;
+  padding: 8px;
+  border-radius: 20px;
+  background: rgba(50, 28, 10, 0.28);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.shape-game.theme-train .sg-tray,
+.shape-game.theme-town .sg-tray {
+  background: linear-gradient(180deg, #fff, #f3f6fa);
+  border-color: #ff9f43;
+  box-shadow: 0 8px 0 rgba(214, 90, 0, 0.2);
+}
+
+.shape-game.theme-train .sg-tray-label,
+.shape-game.theme-town .sg-tray-label {
+  color: #5a6a7a;
+  text-shadow: none;
+}
+
+.shape-game.theme-train .sg-pieces,
+.shape-game.theme-town .sg-pieces {
+  background: rgba(230, 236, 244, 0.85);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.shape-game.theme-space .sg-tray {
+  background: linear-gradient(180deg, #3a2a70, #24184f);
+  border-color: #b39dff;
+  box-shadow: 0 0 24px rgba(140, 100, 255, 0.35), 0 8px 0 rgba(20, 10, 50, 0.45);
+}
+
+.shape-game.theme-space .sg-tray-label { color: #e8deff; text-shadow: none; }
+.shape-game.theme-space .sg-pieces {
+  background: rgba(10, 6, 30, 0.35);
+  box-shadow: inset 0 0 16px rgba(160, 120, 255, 0.2);
+}
+
+.sg-piece {
+  width: clamp(72px, 14vw, 92px);
+  height: clamp(72px, 14vw, 92px);
+  border-radius: 22px;
+  background: #fff;
+  border: 4px solid #fff;
+  box-shadow:
+    0 6px 0 color-mix(in srgb, var(--shape-color) 35%, #ccc),
+    0 10px 18px rgba(0, 0, 0, 0.12);
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 0.15s ease;
+  z-index: 5;
+}
+
+.sg-piece:active { cursor: grabbing; }
+
+.sg-piece-art {
+  width: 78%;
+  height: 78%;
+  display: grid;
+  place-items: center;
+}
+
+.sg-piece-art svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.12));
+}
+
+.sg-piece.is-matched {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.4);
+}
+
+.sg-piece-wrong {
+  animation: sg-shake 0.4s ease;
+}
+
+/* ---------- Overlay ---------- */
+
+.sg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 30, 40, 0.35);
+  backdrop-filter: blur(3px);
+  animation: sg-fade 0.25s ease;
+}
+
+.sg-complete-card {
+  width: min(92%, 360px);
+  padding: 22px 20px 18px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fffef8, #fff);
+  border: 4px solid #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #2f3a4a;
+  animation: sg-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sg-complete-art { font-size: 52px; line-height: 1; margin-bottom: 6px; }
+.sg-complete-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sg-complete-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #6a7a88;
+  margin-bottom: 10px;
+}
+.sg-complete-stars {
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  margin-bottom: 14px;
+}
+
+.sg-next-button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(180deg, #ff9f43, #ff7a1a);
+  box-shadow: 0 5px 0 #d65a00;
+  cursor: pointer;
+}
+
+.sg-next-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 #d65a00;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes sg-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes sg-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+
+@keyframes sg-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes sg-twinkle {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes sg-pop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes sg-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+@keyframes sg-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .sg-play {
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+
+  .sg-mascot {
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 0;
+    align-self: center;
+  }
+
+  .sg-mascot-face { font-size: 2.4rem; }
+  .sg-mascot-bubble { max-width: none; }
+
+  .sg-homes-train {
+    justify-content: center;
+  }
+
+  .sg-engine { display: none; }
+}
+
+@media (max-height: 700px) {
+  .sg-title { font-size: 1.35rem; }
+  .sg-mascot-face { font-size: 2.6rem; }
+  .sg-tray { padding: 8px 10px; }
+  .sg-pieces { min-height: 78px; }
+}

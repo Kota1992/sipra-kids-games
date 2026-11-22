@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#5BC0EB" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>SiPra Games – My Little World</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="games/_kit/games-shared.css?v=2" />
+  <link rel="stylesheet" href="games/shape-matching/style.css?v=2" />
+  <link rel="stylesheet" href="games/color-sorting/style.css?v=2" />
+  <link rel="stylesheet" href="games/color-splash/style.css?v=2" />
+  <link rel="stylesheet" href="games/missing-shape/style.css?v=2" />
+  <link rel="stylesheet" href="games/guess-animal/style.css?v=2" />
+  <link rel="stylesheet" href="games/feed-animals/style.css?v=2" />
+  <link rel="stylesheet" href="games/bubble-pop/style.css?v=2" />
+  <link rel="stylesheet" href="games/butterfly-garden/style.css?v=2" />
+  <link rel="stylesheet" href="games/jigsaw/style.css?v=2" />
+  <link rel="stylesheet" href="games/count-objects/style.css?v=2" />
+  <link rel="stylesheet" href="games/shadow-match/style.css?v=2" />
+  <link rel="stylesheet" href="games/memory/style.css?v=2" />
+  <link rel="stylesheet" href="games/balloon-pop/style.css?v=2" />
+  <link rel="stylesheet" href="games/magic-coloring/style.css?v=2" />
+  <link rel="stylesheet" href="games/car-wash/style.css?v=2" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sunny meadow + rainbow scenery (reference quality) -->
+    <div class="sky" aria-hidden="true">
+      <div class="sky-rainbow"></div>
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="hill hill-back"></div>
+      <div class="hill hill-front"></div>
+      <div class="meadow-flowers">
+        <span>🌷</span><span>🌼</span><span>🌻</span><span>🌺</span><span>🍀</span><span>🌸</span>
+      </div>
+    </div>
+
+    <!-- Screens -->
+    <main id="screens">
+      <!-- HOME -->
+      <section id="screen-home" class="screen active" data-screen="home">
+        <header class="home-header">
+          <div class="logo-wrap" id="brand-logo">
+            <svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFD93D"/>
+                  <stop offset="55%" stop-color="#FF8A7A"/>
+                  <stop offset="100%" stop-color="#7EC8E3"/>
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="60" r="54" fill="url(#logoGrad)"/>
+              <circle cx="60" cy="60" r="46" fill="#FFF8F0" opacity="0.35"/>
+              <circle cx="60" cy="58" r="34" fill="#FFF8F0"/>
+              <circle cx="48" cy="52" r="4.5" fill="#2A6F7A"/>
+              <circle cx="72" cy="52" r="4.5" fill="#2A6F7A"/>
+              <path d="M46 66 Q60 78 74 66" stroke="#2A6F7A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M28 34 L32 42 L24 42 Z" fill="#A8E6CF"/>
+              <path d="M88 30 L94 40 L82 40 Z" fill="#FFB6C1"/>
+              <circle cx="95" cy="72" r="5" fill="#FFD93D"/>
+              <circle cx="22" cy="70" r="4" fill="#7EC8E3"/>
+            </svg>
+            <div class="logo-text">
+              <h1 class="brand">SiPra Games</h1>
+              <p class="tagline" data-i18n="tagline">My Little World</p>
+            </div>
+          </div>
+          <div class="home-header-right">
+            <div class="score-pill" id="score-pill" role="status" aria-label="Stars">
+              <span>⭐</span>
+              <span id="score-pill-value">0</span>
+            </div>
+            <button type="button" class="avatar-chip" id="home-avatar-btn" aria-label="Avatar">
+              <span class="avatar-face" id="home-avatar"></span>
+              <span class="avatar-name" id="home-child-name">Little Star</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="welcome-banner">
+          <p class="welcome-text" data-i18n="welcome">Welcome to My Little World!</p>
+        </div>
+
+        <div class="category-tabs" id="category-tabs" role="tablist">
+          <button type="button" class="cat-tab active" data-cat="all" data-i18n="cat_all">All</button>
+          <button type="button" class="cat-tab" data-cat="colors" data-i18n="cat_colors">Colors &amp; Shapes</button>
+          <button type="button" class="cat-tab" data-cat="animals" data-i18n="cat_animals">Animals &amp; Nature</button>
+          <button type="button" class="cat-tab" data-cat="learning" data-i18n="cat_learning">Learning &amp; Puzzles</button>
+          <button type="button" class="cat-tab" data-cat="fun" data-i18n="cat_fun">Fun &amp; Creativity</button>
+        </div>
+
+        <div class="games-grid" id="home-games-grid"></div>
+      </section>
+
+      <!-- ALL GAMES -->
+      <section id="screen-games" class="screen" data-screen="games">
+        <header class="page-header">
+          <h2 data-i18n="all_games">All Games</h2>
+          <p class="page-sub" data-i18n="pick_game">Pick a game to play!</p>
+        </header>
+        <div class="games-grid" id="all-games-grid"></div>
+      </section>
+
+      <!-- MY STARS -->
+      <section id="screen-stars" class="screen" data-screen="stars">
+        <header class="page-header">
+          <h2 data-i18n="my_stars">My Stars</h2>
+          <p class="page-sub" data-i18n="stars_sub">Look at all your shiny stars!</p>
+        </header>
+        <div class="stars-summary">
+          <div class="big-star-display">
+            <span class="big-star">⭐</span>
+            <span class="star-count" id="total-stars">0</span>
+          </div>
+          <p class="stars-label" data-i18n="total_stars">Total Stars</p>
+        </div>
+        <div class="completed-list" id="completed-list"></div>
+        <div class="accessories-section">
+          <h3 data-i18n="accessories">Avatar Accessories</h3>
+          <div class="accessories-grid" id="accessories-grid"></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="screen-settings" class="screen" data-screen="settings">
+        <header class="page-header">
+          <h2 data-i18n="settings">Settings</h2>
+          <p class="page-sub" data-i18n="settings_sub">Grown-ups can help here</p>
+        </header>
+        <div class="settings-panel">
+          <label class="setting-row">
+            <span data-i18n="child_name">Child's name</span>
+            <input type="text" id="setting-name" maxlength="20" autocomplete="off" />
+          </label>
+
+          <div class="setting-block">
+            <span data-i18n="choose_avatar">Choose avatar</span>
+            <div class="avatar-picker" id="avatar-picker"></div>
+          </div>
+
+          <div class="setting-block">
+            <span data-i18n="language">Language</span>
+            <div class="lang-toggle">
+              <button type="button" class="lang-btn" data-lang="en">English</button>
+              <button type="button" class="lang-btn" data-lang="te">తెలుగు</button>
+            </div>
+          </div>
+
+          <label class="setting-toggle">
+            <span data-i18n="music">Background music</span>
+            <input type="checkbox" id="setting-music" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="setting-toggle">
+            <span data-i18n="sfx">Sound effects</span>
+            <input type="checkbox" id="setting-sfx" />
+            <span class="toggle-ui"></span>
+          </label>
+
+          <button type="button" class="danger-btn" id="reset-progress-btn" data-i18n="reset_progress">Reset progress</button>
+        </div>
+      </section>
+
+      <!-- GAME PLAY -->
+      <section id="screen-play" class="screen" data-screen="play">
+        <header class="game-toolbar">
+          <button type="button" class="tool-btn" id="game-home-btn" aria-label="Home">🏠</button>
+          <h2 class="game-title" id="game-title"></h2>
+          <div class="tool-right">
+            <button type="button" class="tool-btn" id="game-sound-btn" aria-label="Sound">🔊</button>
+            <button type="button" class="tool-btn" id="game-restart-btn" aria-label="Restart">🔄</button>
+          </div>
+        </header>
+        <div id="game-stage" class="game-stage"></div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Main">
+      <button type="button" class="nav-btn active" data-nav="home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label" data-i18n="nav_home">Home</span>
+      </button>
+      <button type="button" class="nav-btn" data-nav="games">
+        <span class="nav-icon">🎮</span>
+        <span class="nav-label" data-i18n="nav_games">Games</span>
+      </button>
+      <button type="button" class="nav-btn" data-nav="stars">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label" data-i18n="nav_stars">Stars</span>
+      </button>
+      <button type="button" class="nav-btn" data-nav="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label" data-i18n="nav_settings">Settings</span>
+      </button>
+    </nav>
+
+    <!-- Overlays -->
+    <div id="overlay" class="overlay hidden" aria-hidden="true">
+      <div class="overlay-card" id="overlay-card"></div>
+    </div>
+
+    <div id="reward-overlay" class="overlay hidden" aria-hidden="true">
+      <div class="yay-badge">
+        <div class="yay-inner reward-card">
+          <div class="yay-emojis" id="reward-emojis">🎉🌈⭐</div>
+          <p class="reward-msg" id="reward-msg">You did it!</p>
+          <div class="reward-stars" id="reward-stars"></div>
+          <div class="reward-actions">
+            <button type="button" class="btn-primary" id="reward-again" data-i18n="play_again">Play again</button>
+            <button type="button" class="btn-secondary" id="reward-home" data-i18n="go_home">Home</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="parent-gate" class="overlay hidden" aria-hidden="true">
+      <div class="overlay-card parent-gate-card">
+        <p data-i18n="parent_gate">Ask a grown-up: What is 2 + 3?</p>
+        <div class="gate-answers" id="gate-answers"></div>
+        <button type="button" class="btn-secondary" id="gate-cancel" data-i18n="cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script src="games/_kit/game-kit.js"></script>
+  <!-- One folder per game – rebuild any game by editing games/<id>/game.js -->
+  <script src="games/shape-matching/game.js"></script>
+  <script src="games/color-sorting/game.js"></script>
+  <script src="games/color-splash/game.js"></script>
+  <script src="games/missing-shape/game.js"></script>
+  <script src="games/guess-animal/game.js"></script>
+  <script src="games/feed-animals/game.js"></script>
+  <script src="games/bubble-pop/game.js"></script>
+  <script src="games/butterfly-garden/game.js"></script>
+  <script src="games/jigsaw/game.js"></script>
+  <script src="games/count-objects/game.js"></script>
+  <script src="games/shadow-match/game.js"></script>
+  <script src="games/memory/game.js"></script>
+  <script src="games/balloon-pop/game.js"></script>
+  <script src="games/magic-coloring/game.js"></script>
+  <script src="games/car-wash/game.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa-register.js"></script>
+</body>
+</html>

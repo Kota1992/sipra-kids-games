@@ -1,0 +1,300 @@
+/* ============================================
+   MEMORY — Tropical Treasure Island
+   ============================================ */
+
+.mi-game {
+  --ink: #164860;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 8px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  border-radius: 26px;
+  color: var(--ink);
+  font-family: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Trebuchet MS', system-ui, sans-serif;
+}
+
+.mi-game *,
+.mi-game *::before,
+.mi-game *::after {
+  box-sizing: border-box;
+}
+.mi-game .gk-level-bar { position: relative; z-index: 6; }
+
+.gk-level-hub.mi-hub {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(255, 245, 180, 0.7) 0, transparent 36%),
+    linear-gradient(165deg, #4cc3f7 0%, #99e2ff 45%, #fff3c4 100%) !important;
+  border: 4px solid #fff;
+}
+.mi-hub .gk-hub-icon { background: linear-gradient(135deg, #ffd43b, #f08c00); }
+.gk-level-hub.mi-hub .gk-hub-title { color: #0c4a82; }
+
+/* Background */
+.mi-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.mi-ocean {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #4fc3f7 0%, #29b6f6 42%, #0288d1 100%);
+}
+
+.mi-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 38%;
+  height: 24px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.25) 0 20px,
+    transparent 20px 40px
+  );
+  animation: mi-wave 4s linear infinite;
+}
+
+.mi-sand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background:
+    radial-gradient(ellipse at 30% 0%, #ffe08233 0, transparent 50%),
+    linear-gradient(180deg, #ffe082 0%, #ffca28 55%, #f9a825 100%);
+  border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+}
+
+.mi-sun {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 40px;
+  animation: mi-bob 3.5s ease-in-out infinite;
+}
+
+.mi-palm {
+  position: absolute;
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.08));
+}
+
+.mi-p1 { bottom: 36%; left: 4%; }
+.mi-p2 { bottom: 34%; right: 6%; transform: scaleX(-1); }
+
+.mi-chest-float {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  opacity: 0.4;
+  animation: mi-bob 2.8s ease-in-out infinite;
+}
+
+/* Header */
+.mi-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.mi-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 4vw, 1.95rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 0 #01579b, 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mi-subtitle {
+  margin: 4px 0 0;
+  font-size: clamp(0.78rem, 2.2vw, 0.9rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mi-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.mi-pairs-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mi-dots-wrap .round-dots {
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid */
+.mi-grid-wrap {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: auto;
+  padding: 4px 0;
+}
+
+.mi-grid {
+  display: grid;
+  gap: clamp(8px, 2vw, 14px);
+  width: min(100%, 480px);
+  justify-items: center;
+}
+
+.mi-card {
+  position: relative;
+  width: 100%;
+  max-width: 108px;
+  aspect-ratio: 5 / 6;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  perspective: 600px;
+}
+
+.mi-card-back,
+.mi-card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px 16px 14px 14px / 22px 22px 16px 16px;
+  border: 4px solid #fff;
+  backface-visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mi-card-back {
+  z-index: 2;
+  background: linear-gradient(160deg, var(--shell), color-mix(in srgb, var(--shell) 70%, #004d40));
+  display: grid;
+  place-items: center;
+  animation: mi-card-idle 3s ease-in-out infinite;
+}
+
+.mi-card:nth-child(even) .mi-card-back {
+  animation-delay: 0.5s;
+}
+
+.mi-compass {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.mi-q {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.mi-card-face {
+  background: var(--face);
+  display: grid;
+  place-items: center;
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.mi-emoji {
+  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.1));
+}
+
+.mi-card.revealed .mi-card-back,
+.mi-card.matched .mi-card-back {
+  animation: none;
+  transform: rotateY(180deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mi-card.revealed .mi-card-face,
+.mi-card.matched .mi-card-face {
+  transform: rotateY(0);
+  opacity: 1;
+}
+
+.mi-card.matched .mi-card-face {
+  border-color: #ffd600;
+  box-shadow: 0 0 0 3px #ffab00, 0 10px 20px rgba(255, 171, 0, 0.35);
+  animation: mi-match-pulse 0.6s ease;
+}
+
+.mi-card.wrong .mi-card-face {
+  animation: mi-shake 0.45s ease;
+}
+
+@keyframes mi-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes mi-wave {
+  from { background-position: 0 0; }
+  to { background-position: 80px 0; }
+}
+
+@keyframes mi-card-idle {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-3px) rotate(-1deg); }
+}
+
+@keyframes mi-shake {
+  0%, 100% { transform: rotateY(0) translateX(0); }
+  25% { transform: rotateY(0) translateX(-5px); }
+  75% { transform: rotateY(0) translateX(5px); }
+}
+
+@keyframes mi-match-pulse {
+  0% { transform: rotateY(0) scale(1); }
+  50% { transform: rotateY(0) scale(1.08); }
+  100% { transform: rotateY(0) scale(1); }
+}
+
+@media (max-width: 400px) {
+  .mi-grid {
+    max-width: 100%;
+  }
+  .mi-card {
+    max-width: 86px;
+  }
+}

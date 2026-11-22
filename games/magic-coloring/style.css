@@ -1,0 +1,633 @@
+/* ==========================================
+   MAGIC COLORING — CRAYON SKETCHBOOK STUDIO
+   ========================================== */
+
+.coloring-stage {
+  --art-ink: #3c2f4d;
+  --desk-wood-1: #f6dfc2;
+  --desk-wood-2: #e7c297;
+  --paper-cream: #fffdf5;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 7px;
+  padding: 8px 10px 9px;
+  overflow: hidden;
+  border-radius: 26px;
+  font-family: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Trebuchet MS', system-ui, sans-serif;
+
+  /* Warm sunlit wooden art desk texture */
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 245, 220, 0.72) 0%, transparent 40%),
+    radial-gradient(circle at 88% 90%, rgba(255, 198, 150, 0.45) 0%, transparent 42%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(166, 108, 56, 0.045) 0px,
+      rgba(166, 108, 56, 0.045) 18px,
+      rgba(255, 255, 255, 0.03) 18px,
+      rgba(255, 255, 255, 0.03) 36px
+    ),
+    linear-gradient(160deg, #fae8ce 0%, #f1cfa8 55%, #e5b988 100%);
+
+  color: var(--art-ink);
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.65);
+}
+
+.coloring-stage *,
+.coloring-stage *::before,
+.coloring-stage *::after {
+  box-sizing: border-box;
+}
+
+/* Level hub theme */
+.mc-hub {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255, 244, 214, 0.85) 0, transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(255, 200, 221, 0.55) 0, transparent 40%),
+    linear-gradient(155deg, #fff6e6 0%, #ffe6f2 52%, #e8f5ff 100%) !important;
+}
+
+.coloring-stage .gk-level-bar {
+  position: relative;
+  z-index: 6;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 4px 10px;
+}
+
+/* ==========================================
+   SPIRAL-BOUND SKETCHBOOK SHEET
+   ========================================== */
+.coloring-workspace {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 180px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 20px 20px 18px 18px;
+  border: 3px solid #f0e4cc;
+  background-color: var(--paper-cream);
+  /* Stacked notebook pages depth + warm desk shadow */
+  box-shadow:
+    0 3px 0 #eadec7,
+    0 6px 0 #dfcfb4,
+    0 12px 24px rgba(92, 56, 24, 0.22);
+}
+
+/* Subtle offline SVG drawing-paper grain overlay */
+.coloring-workspace::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.24'/%3E%3C/svg%3E");
+}
+
+/* Spiral notebook wire rings */
+.mc-spiral-rings {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 15px;
+  padding: 0 22px;
+  background: linear-gradient(180deg, #f3e6cf 0%, #fffdf5 100%);
+  border-bottom: 1px dashed rgba(154, 123, 86, 0.28);
+  flex-shrink: 0;
+}
+
+.mc-ring {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #d6cbb8, #8e7c64);
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.32),
+    0 -3px 0 1px #b8b0a4;
+}
+
+.coloring-scene-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 14px 4px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, rgba(255, 248, 232, 0.9), rgba(255, 253, 245, 0.9));
+  border-bottom: 1.5px dashed rgba(190, 165, 130, 0.35);
+}
+
+.mc-scene-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mc-scene-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.coloring-scene-name {
+  font-size: clamp(14px, 2.5vw, 17px);
+  font-weight: 800;
+  color: #5b3b7c;
+  line-height: 1.1;
+}
+
+.coloring-scene-description {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8f7e9c;
+}
+
+.coloring-scene-number {
+  font-size: 11px;
+  font-weight: 800;
+  color: #8c5a2b;
+  background: #fff3d6;
+  border: 2px solid #ffd580;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* ==========================================
+   BIG PAPER CANVAS STAGE (SVG + CRAYON CANVAS)
+   ========================================== */
+.coloring-svg-wrap {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 50%, #fffefb 0%, #fffdf5 68%, #f8f0dc 100%);
+}
+
+.mc-paper-stage {
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 440 / 390;
+  display: grid;
+  place-items: center;
+}
+
+.mc-svg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mc-svg-layer svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  touch-action: none;
+}
+
+.mc-sketch-group {
+  filter: url(#mc-sketch-ink);
+}
+
+.coloring-svg-wrap .colorable {
+  cursor: pointer;
+  /* Never hardcode fill here — JS assigns fill attr + inline style.fill */
+  stroke: #2d243b;
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: all;
+}
+
+.coloring-svg-wrap .colorable:focus-visible {
+  outline: none;
+  stroke: #ff8a00;
+  stroke-width: 6;
+}
+
+.coloring-svg-wrap .paint-flash {
+  animation: coloringPop 0.34s ease;
+}
+
+@keyframes coloringPop {
+  0% { filter: brightness(1); }
+  45% { filter: brightness(1.24) saturate(1.25); }
+  100% { filter: brightness(1); }
+}
+
+.mc-draw-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  touch-action: none;
+  cursor: crosshair;
+  /* Multiply lets hand-drawn black ink outlines stay crisp beneath wax crayon strokes */
+  mix-blend-mode: multiply;
+}
+
+/* ==========================================
+   TOOLS & BRUSH SIZE BAR
+   ========================================== */
+.mc-controls-row {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.coloring-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.color-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 5px 10px;
+  border: 2.5px solid #fff;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6efe4 100%);
+  color: #5b4636;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 3px 0 #d5bfa3, 0 4px 10px rgba(80, 50, 20, 0.12);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+}
+
+.mc-tool-ico {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.color-tool:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #d5bfa3;
+}
+
+.color-tool.active {
+  background: linear-gradient(180deg, #ffe28a 0%, #ffb74d 100%);
+  color: #5d3000;
+  border-color: #fff;
+  box-shadow: 0 3px 0 #d98218, 0 0 0 3px rgba(255, 183, 77, 0.45);
+  transform: translateY(-2px);
+}
+
+.color-tool.save-art {
+  background: linear-gradient(180deg, #d8fbe6 0%, #a5ecc2 100%);
+  color: #166534;
+  box-shadow: 0 3px 0 #5bbf83;
+}
+
+.color-tool:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* Brush size tactile dots */
+.mc-size-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.88);
+  border: 2px solid #fff;
+  box-shadow: 0 3px 0 #d5bfa3;
+}
+
+.mc-size-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: #f3e8d8;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+
+.mc-size-btn.active {
+  background: #ffd54f;
+  border-color: #ff8f00;
+  transform: scale(1.1);
+}
+
+.mc-size-dot {
+  display: block;
+  border-radius: 50%;
+  background: #5b4636;
+}
+.mc-dot-sm { width: 6px; height: 6px; }
+.mc-dot-md { width: 11px; height: 11px; }
+.mc-dot-lg { width: 16px; height: 16px; }
+
+/* ==========================================
+   ILLUSTRATED STANDING WAX CRAYON BOX
+   ========================================== */
+.coloring-palette-area {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  padding: 12px 10px 6px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, #9c6234 0%, #7c4922 22%, #6b3c19 100%);
+  border: 3px solid #c68b54;
+  box-shadow:
+    inset 0 6px 12px rgba(42, 20, 6, 0.45),
+    0 4px 0 #542d10,
+    0 8px 16px rgba(60, 32, 10, 0.22);
+}
+
+.paint-palette {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 14px 4px 2px;
+  margin-top: -12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.paint-palette::-webkit-scrollbar { display: none; }
+
+/* Each swatch is a real standing 3D wax crayon */
+.paint-swatch.mc-crayon {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(28px, 4.6vw, 38px);
+  height: clamp(54px, 7.6vh, 66px);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.28));
+}
+
+.paint-swatch.mc-crayon:hover {
+  transform: translateY(-6px);
+}
+
+.paint-swatch.mc-crayon.selected {
+  transform: translateY(-12px) scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(255, 224, 102, 0.95)) drop-shadow(0 6px 6px rgba(0, 0, 0, 0.3));
+  z-index: 4;
+}
+
+/* Sculpted pointed wax tip */
+.crayon-tip {
+  width: 68%;
+  height: 16px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--crayon-color) 76%, #000) 0%,
+    var(--crayon-color) 38%,
+    color-mix(in srgb, var(--crayon-color) 72%, #fff) 65%,
+    color-mix(in srgb, var(--crayon-color) 80%, #000) 100%);
+  clip-path: polygon(34% 0%, 66% 0%, 100% 100%, 0% 100%);
+  border-radius: 3px 3px 0 0;
+}
+
+.paint-swatch.paint-white .crayon-tip,
+.paint-swatch.paint-white .crayon-body {
+  outline: 1px solid rgba(120, 120, 130, 0.35);
+}
+
+/* Cylindrical wax barrel + paper wrapper */
+.crayon-body {
+  width: 86%;
+  flex: 1;
+  border-radius: 3px 3px 5px 5px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--crayon-color) 75%, #000) 0%,
+    var(--crayon-color) 32%,
+    color-mix(in srgb, var(--crayon-color) 80%, #fff) 62%,
+    color-mix(in srgb, var(--crayon-color) 75%, #000) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 5px 0;
+}
+
+.crayon-wrapper {
+  width: 100%;
+  height: 76%;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.78) 45%,
+    rgba(240, 235, 225, 0.55) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+
+.crayon-stripe {
+  width: 100%;
+  height: 3px;
+  background: rgba(35, 30, 42, 0.72);
+}
+
+.crayon-oval {
+  width: 60%;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--crayon-color);
+  border: 1.5px solid rgba(35, 30, 42, 0.48);
+}
+
+/* ==========================================
+   BOTTOM PROGRESS + FINISH ROW
+   ========================================== */
+.mc-bottom-row {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.coloring-progress {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 253, 245, 0.92);
+  border: 2px solid #fff;
+  box-shadow: 0 3px 0 #d5bfa3;
+  color: #5b4636;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.mc-prog-text small {
+  opacity: 0.7;
+  font-weight: 700;
+}
+
+.coloring-progress-track {
+  flex: 1;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eadec7;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.12);
+}
+
+.coloring-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff7043, #ffca28, #66bb6a);
+  transition: width 0.25s ease;
+}
+
+.coloring-progress-fill.goal-met {
+  background: linear-gradient(90deg, #43a047, #66bb6a, #ffd54f);
+}
+
+.mc-prog-badge {
+  white-space: nowrap;
+  color: #8c5a2b;
+}
+
+.coloring-actions {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.coloring-finish-button {
+  min-width: 112px;
+  min-height: 40px;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  padding: 7px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  color: #5c2d00;
+  background: linear-gradient(180deg, #ffe066 0%, #ffa726 100%);
+  box-shadow: 0 4px 0 #d47500, 0 6px 14px rgba(180, 90, 0, 0.25);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+.coloring-finish-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #d47500;
+}
+
+/* ==========================================
+   MOBILE & COMPACT VIEWPORTS
+   ========================================== */
+@media (max-width: 600px) {
+  .coloring-stage {
+    padding: 6px 7px 7px;
+    gap: 5px;
+    border-radius: 18px;
+  }
+
+  .coloring-scene-description { display: none; }
+
+  .color-tool {
+    padding: 5px 7px;
+    min-height: 32px;
+    font-size: 10px;
+  }
+  .mc-tool-lbl { display: none; }
+  .color-tool[data-tool="crayon"] .mc-tool-lbl,
+  .color-tool[data-tool="fill"] .mc-tool-lbl,
+  .color-tool[data-tool="erase"] .mc-tool-lbl { display: inline; }
+
+  .paint-palette {
+    justify-content: flex-start;
+    gap: 5px;
+  }
+
+  .paint-swatch.mc-crayon {
+    width: 30px;
+    height: 50px;
+  }
+
+  .mc-prog-badge { display: none; }
+  .coloring-finish-button {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 660px) {
+  .mc-spiral-rings { height: 11px; }
+  .mc-ring { width: 9px; height: 9px; }
+  .coloring-scene-header { padding: 3px 10px; }
+  .paint-swatch.mc-crayon { height: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coloring-stage *,
+  .coloring-stage *::before,
+  .coloring-stage *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

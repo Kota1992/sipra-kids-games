@@ -1,0 +1,276 @@
+/* ==========================================
+   COUNT OBJECTS — Royal Number Kingdom
+   ========================================== */
+
+.nk-hub.gk-level-hub {
+  background:
+    radial-gradient(ellipse at 50% 0%, #fff6d1 0, transparent 48%),
+    linear-gradient(165deg, #e7e1ff 0%, #f7e6ff 50%, #fff1df 100%) !important;
+}
+.nk-hub .gk-hub-icon { background: linear-gradient(135deg, #9775fa, #5f3dc4); }
+
+.nk-arena {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 8px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden auto;
+  border-radius: 26px;
+  font-family: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Trebuchet MS', system-ui, sans-serif;
+  color: #3f1770;
+}
+
+.nk-arena * { box-sizing: border-box; }
+.nk-arena .gk-level-bar { position: relative; z-index: 6; }
+
+/* Storybook royal kingdom sky & meadow */
+.nk-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.nk-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 84% 12%, rgba(255, 245, 196, 0.72) 0%, transparent 32%),
+    linear-gradient(180deg, #7e5bef 0%, #b197fc 36%, #e5dbff 60%, #a9e37b 60%, #6cc24a 100%);
+}
+
+.nk-castle {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(3rem, 12vw, 4.6rem);
+  opacity: 0.35;
+  filter: drop-shadow(0 5px 8px rgba(40, 12, 90, 0.2));
+}
+
+.nk-banner-flag {
+  position: absolute;
+  top: 14%;
+  left: 10%;
+  width: 44px;
+  height: 30px;
+  background: linear-gradient(90deg, #ffe066, #ff922b);
+  border-radius: 0 8px 8px 0;
+  opacity: 0.75;
+  animation: nk-flag 3s ease-in-out infinite;
+}
+.nk-banner-flag::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #5d4037;
+}
+
+@keyframes nk-flag {
+  0%, 100% { transform: skewY(0deg); }
+  50% { transform: skewY(-4deg); }
+}
+
+.nk-ground {
+  position: absolute;
+  bottom: 0;
+  left: -8%;
+  right: -8%;
+  height: 26%;
+  background: linear-gradient(180deg, #8ad65b, #54a33a);
+  border-radius: 45% 45% 0 0 / 24px 24px 0 0;
+}
+
+.nk-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.nk-brand {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.nk-crown { font-size: 2rem; filter: drop-shadow(0 3px 5px rgba(255, 193, 7, 0.7)); }
+.nk-title {
+  margin: 0;
+  font-size: clamp(1.1rem, 3.6vw, 1.4rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 3px 0 #4c1d95, 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+.nk-question {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 1.5px 0 rgba(58, 16, 110, 0.45);
+}
+.nk-emoji-label { font-size: 1.15em; }
+
+.nk-round-pill {
+  background: linear-gradient(180deg, #ffffff, #f3e8ff);
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  padding: 6px 15px;
+  font-weight: 900;
+  font-size: 0.86rem;
+  color: #5f3dc4;
+  box-shadow: 0 4px 0 #9775fa;
+}
+
+/* Golden Royal Treasure Chest Tray */
+.nk-treasure {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 540px;
+  background: linear-gradient(180deg, #fffef6 0%, #fff3cc 100%);
+  border: 4px solid #ffffff;
+  border-radius: 26px;
+  padding: 14px 16px;
+  box-shadow:
+    0 0 0 3px #ffd43b,
+    0 7px 0 #d99300,
+    0 14px 28px rgba(74, 20, 140, 0.18);
+  min-height: 112px;
+  display: grid;
+  place-items: center;
+}
+
+.nk-treasure-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  justify-content: center;
+  align-content: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.nk-item {
+  border: none;
+  background: transparent;
+  padding: 4px;
+  border-radius: 14px;
+  font-size: clamp(2.3rem, 7.6vw, 3.2rem);
+  cursor: pointer;
+  animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  filter: drop-shadow(0 5px 6px rgba(0, 0, 0, 0.16));
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nk-item:active,
+.nk-item.counted { transform: scale(1.18) rotate(-5deg); }
+
+.nk-pad-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 540px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 4px solid #ffffff;
+  border-radius: 24px;
+  padding: 12px 14px 16px;
+  box-shadow: 0 6px 0 rgba(95, 61, 196, 0.2), 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.nk-pad-hint {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #5f3dc4;
+}
+
+.nk-pad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.nk-orb {
+  aspect-ratio: 1;
+  border: 3.5px solid #ffffff;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fff9d6 0%, #ffd43b 52%, #ff9f1c 100%);
+  font-family: inherit;
+  font-size: clamp(1.3rem, 4.4vw, 1.85rem);
+  font-weight: 900;
+  color: #7c2d00;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7), 0 6px 0 #cc6b00, 0 10px 18px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.nk-orb:hover { transform: translateY(-3px); }
+.nk-orb:active { transform: translateY(3px) scale(0.94); box-shadow: 0 2px 0 #cc6b00; }
+
+.nk-orb.nk-orb-win {
+  background: linear-gradient(180deg, #c6f6d5, #48bb78);
+  color: #14532d;
+  border-color: #ffffff;
+  box-shadow: 0 6px 0 #276749;
+  animation: nk-orb-cheer 0.5s ease;
+}
+
+@keyframes nk-orb-cheer {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.14); }
+}
+
+.nk-wizard {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.nk-wizard-face { font-size: 2.1rem; }
+.nk-wizard-bubble {
+  font-size: 0.68rem;
+  background: #ffffff;
+  color: #5f3dc4;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 360px) {
+  .nk-pad { gap: 8px; }
+  .nk-orb { border-radius: 15px; border-width: 3px; }
+  .nk-wizard { display: none; }
+}
+
+@media (min-width: 520px) {
+  .nk-treasure { min-height: 126px; }
+}

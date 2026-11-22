@@ -1,0 +1,235 @@
+/* ============================================
+   BALLOON FESTIVAL — Festive Sky Carnival (.bln-*)
+   ============================================ */
+
+.bln-game {
+  --ink: #5d4037;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 8px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 26px;
+  font-family: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Trebuchet MS', system-ui, sans-serif;
+}
+
+.bln-game *,
+.bln-game *::before,
+.bln-game *::after {
+  box-sizing: border-box;
+}
+.bln-game .gk-level-bar { position: relative; z-index: 6; }
+
+.gk-level-hub.bln-hub {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 250, 210, 0.72) 0, transparent 42%),
+    linear-gradient(165deg, #ffd6e0 0%, #ffe8cc 50%, #e0f5ff 100%) !important;
+  border: 4px solid #fff;
+}
+.bln-hub .gk-hub-icon { background: linear-gradient(135deg, #ff6b6b, #f03e3e); }
+.gk-level-hub.bln-hub .gk-hub-title { color: #c92a2a; }
+
+/* Background */
+.bln-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.bln-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #5bc0eb 0%, #b8e4ff 48%, #fff9c4 78%, #ffcc80 100%);
+}
+
+.bln-bunting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ff5252 0 24px,
+    #ffd740 24px 48px,
+    #69f0ae 48px 72px,
+    #40c4ff 72px 96px,
+    #ff80ab 96px 120px
+  );
+  opacity: 0.85;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+}
+
+.bln-confetti-layer {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 25%, #ff525288 0 4px, transparent 5px),
+    radial-gradient(circle at 75% 18%, #40c4ff88 0 3px, transparent 4px),
+    radial-gradient(circle at 45% 35%, #ffd74088 0 3px, transparent 4px),
+    radial-gradient(circle at 88% 42%, #69f0ae88 0 4px, transparent 5px);
+  animation: bln-sparkle 6s ease-in-out infinite;
+}
+
+.bln-hills {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: 0;
+  height: 22%;
+  background: linear-gradient(180deg, #a5d6a7 0%, #66bb6a 100%);
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+}
+
+.bln-crowd {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  letter-spacing: 8px;
+  opacity: 0.55;
+}
+
+/* Header */
+.bln-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 4px 4px 0;
+}
+
+.bln-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 0 #e65100, 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.bln-subtitle {
+  margin: 4px 0 0;
+  font-size: clamp(0.78rem, 2.2vw, 0.9rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.bln-hud {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fffde7, #fff59d);
+  border: 3px solid #ffb300;
+  box-shadow: 0 4px 0 #ffa000, 0 8px 14px rgba(0, 0, 0, 0.12);
+  font-weight: 800;
+  color: #e65100;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+}
+
+.bln-hud-icon {
+  font-size: 1.1em;
+}
+
+.bln-hud-sep {
+  opacity: 0.6;
+  margin: 0 2px;
+}
+
+/* Play field */
+.bln-field {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  border-radius: 0 0 18px 18px;
+  overflow: hidden;
+}
+
+.bln-balloon {
+  position: absolute;
+  width: clamp(54px, 13vw, 68px);
+  height: clamp(68px, 16vw, 84px);
+  border-radius: 50% 50% 48% 48%;
+  background: radial-gradient(circle at 35% 30%, #fff6, var(--balloon) 45%, color-mix(in srgb, var(--balloon) 80%, #000));
+  border: 3px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset -8px -12px 16px rgba(0, 0, 0, 0.12),
+    0 8px 14px rgba(0, 0, 0, 0.15);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  animation: bln-rise linear forwards;
+  padding: 0;
+  z-index: 2;
+}
+
+.bln-face {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  pointer-events: none;
+}
+
+.bln-string {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 22px;
+  background: linear-gradient(180deg, #78909c, #546e7a);
+  pointer-events: none;
+}
+
+.bln-balloon.bln-popping {
+  animation: bln-pop 0.32s ease-out forwards !important;
+}
+
+@keyframes bln-rise {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-125vh);
+  }
+}
+
+@keyframes bln-pop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes bln-sparkle {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@media (max-height: 640px) {
+  .bln-crowd { display: none; }
+  .bln-bunting { height: 20px; }
+}

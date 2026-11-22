@@ -1,0 +1,281 @@
+/* ============================================
+   HAPPY CAR WASH — Bubbly Sunny Suds Garage
+   ============================================ */
+
+.cw-hub {
+  --cw-aqua: #3bc9db;
+  --cw-deep: #1971c2;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 250, 210, 0.85) 0, transparent 42%),
+    linear-gradient(160deg, #d8f8ff 0%, #a5e6ff 52%, #d3f9d8 100%) !important;
+}
+.cw-hub .gk-hub-icon { background: linear-gradient(135deg, #4dabf7, #1c7ed6); }
+
+.cw-arena {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px 12px;
+  overflow: hidden;
+  border-radius: 26px;
+  font-family: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Trebuchet MS', system-ui, sans-serif;
+  color: #0d47a1;
+}
+
+.cw-arena *,
+.cw-arena *::before,
+.cw-arena *::after {
+  box-sizing: border-box;
+}
+
+/* Illustrated bubbly garage background */
+.cw-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.cw-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255, 248, 196, 0.85) 0%, transparent 28%),
+    linear-gradient(180deg, #4cc3f7 0%, #99e2ff 45%, #d9f6ff 68%, #9be090 68%, #63bf69 100%);
+}
+
+.cw-sun {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 40px;
+  filter: drop-shadow(0 4px 8px rgba(255, 193, 7, 0.5));
+  animation: cw-bob 3s ease-in-out infinite;
+}
+
+.cw-cloud {
+  position: absolute;
+  font-size: 34px;
+  opacity: 0.92;
+  animation: cw-drift 14s ease-in-out infinite;
+}
+.cw-c1 { top: 44px; left: 6%; }
+.cw-c2 { top: 84px; right: 18%; animation-duration: 18s; animation-direction: reverse; }
+
+.cw-bubbles {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 68%, rgba(255, 255, 255, 0.72) 0 10px, transparent 11px),
+    radial-gradient(circle at 88% 52%, rgba(255, 255, 255, 0.62) 0 13px, transparent 14px),
+    radial-gradient(circle at 46% 28%, rgba(255, 255, 255, 0.5) 0 8px, transparent 9px),
+    radial-gradient(circle at 26% 36%, rgba(255, 255, 255, 0.55) 0 6px, transparent 7px);
+  opacity: 0.88;
+}
+
+/* Clean garage wash bay tiles */
+.cw-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 42px, transparent 42px 84px),
+    linear-gradient(180deg, #7cd4f5 0%, #48a9df 100%);
+  border-top: 4px solid rgba(255, 255, 255, 0.72);
+}
+
+@keyframes cw-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes cw-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+
+.cw-arena .gk-level-bar {
+  position: relative;
+  z-index: 6;
+  width: 100%;
+}
+
+/* Header */
+.cw-hero {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 620px;
+  flex-shrink: 0;
+}
+
+.cw-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cw-brand-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #d8f2ff);
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 0 #74c0fc, 0 8px 16px rgba(2, 136, 209, 0.18);
+}
+
+.cw-brand-title {
+  font-size: clamp(18px, 3.2vw, 23px);
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 2.5px 0 #1565c0, 0 4px 10px rgba(0, 0, 0, 0.16);
+  line-height: 1.08;
+}
+
+.cw-vehicle-name {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0d47a1;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-top: 3px;
+}
+
+.cw-step-label {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(14px, 2.8vw, 17px);
+  font-weight: 900;
+  color: #0b4a8c;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2.5px solid #ffffff;
+  padding: 5px 16px;
+  border-radius: 999px;
+  box-shadow: 0 3px 0 rgba(21, 101, 192, 0.18);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.cw-dots {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+/* Vehicle Wash Bay */
+.car-scene-pro {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: 100%;
+  max-width: 620px;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(225, 246, 255, 0.55));
+  border-radius: 26px;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 4px 16px rgba(3, 169, 244, 0.12),
+    0 10px 24px rgba(15, 76, 129, 0.16);
+}
+
+.car-scene-pro .car-svg {
+  width: min(92%, 360px);
+  height: auto;
+  filter: drop-shadow(0 14px 20px rgba(10, 48, 86, 0.22));
+  transition: filter 0.4s ease;
+}
+
+.car-scene-pro .car-svg.shiny {
+  filter:
+    drop-shadow(0 14px 20px rgba(10, 48, 86, 0.22))
+    drop-shadow(0 0 26px rgba(255, 215, 64, 0.95));
+}
+
+/* Tactile Candy Wash Tools */
+.wash-tools-pro {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 0 2px;
+  flex-shrink: 0;
+}
+
+.wash-chip {
+  border: 3.5px solid #ffffff;
+  border-radius: 20px;
+  padding: 9px 14px;
+  min-height: 62px;
+  min-width: 72px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #254b6e;
+  background: linear-gradient(180deg, #ffffff 0%, #e7f5ff 100%);
+  box-shadow: 0 5px 0 #74c0fc, 0 8px 16px rgba(15, 76, 129, 0.14);
+  cursor: pointer;
+  touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
+}
+
+.wash-chip .t-icon { font-size: 1.55rem; line-height: 1; }
+
+.wash-chip.active {
+  background: linear-gradient(180deg, #fff5b8 0%, #ffca3a 100%);
+  color: #6b3000;
+  box-shadow: 0 6px 0 #d98200, 0 0 0 4px rgba(255, 214, 0, 0.48), 0 10px 20px rgba(217, 130, 0, 0.24);
+  transform: translateY(-3px);
+}
+
+.wash-chip.done {
+  background: linear-gradient(180deg, #d8fbe6, #9be5b8);
+  color: #166534;
+  box-shadow: 0 4px 0 #5bbf83;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.wash-chip:disabled:not(.active):not(.done) {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.wash-chip:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #74c0fc;
+}
+
+@media (max-width: 520px) {
+  .wash-chip {
+    min-width: 60px;
+    min-height: 54px;
+    padding: 7px 9px;
+    font-size: 0.72rem;
+  }
+  .wash-chip .t-icon { font-size: 1.3rem; }
+}
